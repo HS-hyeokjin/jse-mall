@@ -2,8 +2,8 @@ package com.hshyeokjin.jsemall.common.contoller;
 
 import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Set;
