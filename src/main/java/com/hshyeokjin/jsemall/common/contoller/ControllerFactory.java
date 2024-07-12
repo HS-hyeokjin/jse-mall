@@ -4,22 +4,30 @@ import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class ControllerFactory {
     public static final String CONTEXT_NAME = "CONTROLLER_FACTORY";
     private final ConcurrentHashMap<String, Object> beanMap = new ConcurrentHashMap<>();
 
     public void initialize(Set<Class<?>> c, ServletContext ctx) {
+        log.debug("ControllerFactory initialize 메서드 실행");
+        log.debug("ctx = {}", ctx.getContextPath());
         if (Objects.isNull(c)){
+            log.debug("Ojects.isNull(c) : c = {}", c);
             return;
         }
         for (Class<?> cls : c) {
+            log.debug("cls = {}", cls);
             try{
                 BaseController controller = (BaseController) cls.getDeclaredConstructor().newInstance();
+                log.debug("conteroller = {}", controller);
 
                 if(cls.isAnnotationPresent(RequestMapping.class)){
                     RequestMapping requestMapping = cls.getAnnotation(RequestMapping.class);
