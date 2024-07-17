@@ -6,15 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping(method = RequestMapping.Method.GET, value = "/sign-up.do")
-public class SignUpController implements BaseController {
+@RequestMapping(method = RequestMapping.Method.GET,value = "/login.do")
+public class LoginController implements BaseController {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if(session != null && session.getAttribute("member") != null) {
+    public String execute(HttpServletRequest reqests, HttpServletResponse response) {
+        HttpSession session = reqests.getSession(false);
+        if (session != null && session.getAttribute("member") != null) {
             return "redirect:/index.do";
         }
-        return "shop/member/signup_form";
+        return "shop/login/login_form";
     }
 }
