@@ -10,11 +10,11 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController implements BaseController {
 
     @Override
-    public String execute(HttpServletRequest reqests, HttpServletResponse response) {
-        HttpSession session = reqests.getSession(false);
+    public String execute(HttpServletRequest reqest, HttpServletResponse response) {
+        HttpSession session = reqest.getSession(false);
         if (session != null && session.getAttribute("member") != null) {
             return "redirect:/index.do";
         }
-        return "shop/login/login_form";
+        return "shop/member/login_form";
     }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,16 +13,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class Member {
-    public enum Auth{
-        ADMIN, USER
-    }
 
-    private int memberId;
-    private String memberName;
+    private int memberNo;
+
+    private String email;
+
+    private String name;
+
     private String password;
+
     private Auth auth;
-    private int gender;
+
+    private Date birth;
+
     private int point;
-    private LocalDateTime createAt;
+
+    private Date createAt;
 
 }

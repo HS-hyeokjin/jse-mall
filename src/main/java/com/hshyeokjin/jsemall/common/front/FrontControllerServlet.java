@@ -22,7 +22,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        log.debug("frontControllerServlet init()");
+
         ServletConfig config = getServletConfig();
         ServletContext servletContext = config.getServletContext();
         controllerFactory = (ControllerFactory) servletContext.getAttribute(ControllerFactory.CONTEXT_NAME);
@@ -31,28 +31,23 @@ public class FrontControllerServlet extends HttpServlet {
         }
         viewResolver = new ViewResolver();
 
-        DbConnection.initialize();
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) {
-        log.debug("frontControllerServlet service()");
-        log.debug("req.getRequestURI() = {}",req.getRequestURI());
+    protected void service(HttpServletRequest request, HttpServletResponse response) {
+        DbConnection.initialize();
+
         try {
-            BaseController baseController = (BaseController) controllerFactory.getController(req);
-            String viewName = baseController.execute(req, resp);
-            log.debug("viewName = {}", viewName);
+            BaseController baseController = (BaseController) controllerFactory.getController(request);
+            String viewName = baseController.execute(request, response);
             if (viewResolver.isRedirect(viewName)) {
                 String redirectUrl = viewResolver.getRedirectUrl(viewName);
-                log.debug("viewResolver.getPath(viewName) = {}", viewResolver.getPath(viewName));
-                resp.sendRedirect(redirectUrl);
+                response.sendRedirect(redirectUrl);
             } else {
                 String layout = viewResolver.getLayOut(viewName);
-                log.debug("viewName:{}", viewResolver.getPath(viewName));
-                req.setAttribute(ViewResolver.LAYOUT_CONTENT_HOLDER, viewResolver.getPath(viewName));
-                RequestDispatcher rd = req.getRequestDispatcher(layout);
-                log.debug("layout:{}", layout);
-                rd.include(req, resp);
+                request.setAttribute(ViewResolver.LAYOUT_CONTENT_HOLDER, viewResolver.getPath(viewName));
+                RequestDispatcher rd = request.getRequestDispatcher(layout);
+                rd.include(request, response);
             }
         } catch (Exception e) {
             DbConnection.setSqlError(true);

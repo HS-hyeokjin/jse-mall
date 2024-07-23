@@ -1,9 +1,12 @@
 package com.hshyeokjin.jsemall.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.SQLException;
 
 import java.sql.Connection;
 
+@Slf4j
 public class DbConnection {
     private static final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> sqlErrorThreadLocal = ThreadLocal.withInitial(() -> false);
@@ -44,6 +47,8 @@ public class DbConnection {
                 connection.close();
             }
         }catch (SQLException e) {
+            log.error("DbConnectionThreadLocal.reset() : ", e);
+
         } finally {
             connectionThreadLocal.remove();
             sqlErrorThreadLocal.remove();
