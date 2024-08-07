@@ -1,14 +1,14 @@
 package com.hshyeokjin.jsemall.member.controller;
 
+import com.hshyeokjin.jsemall.cart.repository.impl.CartRepositoryImpl;
 import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
-import com.hshyeokjin.jsemall.common.contoller.BaseController;
+import com.hshyeokjin.jsemall.common.controller.BaseController;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberSignUpRequest;
 import com.hshyeokjin.jsemall.member.repository.impl.MemberRepositoryImpl;
 import com.hshyeokjin.jsemall.member.service.MemberService;
 import com.hshyeokjin.jsemall.member.service.impl.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @RequestMapping(method = RequestMapping.Method.POST, value = "/sign-up-post.do")
 public class SignUpPostController implements BaseController {
 
-    private final MemberService memberService = new MemberServiceImpl(new MemberRepositoryImpl());
+    private final MemberService memberService = new MemberServiceImpl(new MemberRepositoryImpl(), new CartRepositoryImpl());
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

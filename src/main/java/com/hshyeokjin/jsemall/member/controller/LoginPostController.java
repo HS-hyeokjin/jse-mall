@@ -1,7 +1,8 @@
 package com.hshyeokjin.jsemall.member.controller;
 
+import com.hshyeokjin.jsemall.cart.repository.impl.CartRepositoryImpl;
 import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
-import com.hshyeokjin.jsemall.common.contoller.BaseController;
+import com.hshyeokjin.jsemall.common.controller.BaseController;
 import com.hshyeokjin.jsemall.member.entity.Member;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberLoginRequest;
 import com.hshyeokjin.jsemall.member.repository.impl.MemberRepositoryImpl;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(method=RequestMapping.Method.POST, value="/login-post.do")
 public class LoginPostController implements BaseController {
 
-    private MemberService memberService = new MemberServiceImpl(new MemberRepositoryImpl());
+    private MemberService memberService = new MemberServiceImpl(new MemberRepositoryImpl(), new CartRepositoryImpl());
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

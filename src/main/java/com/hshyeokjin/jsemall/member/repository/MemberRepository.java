@@ -4,7 +4,6 @@ import com.hshyeokjin.jsemall.member.entity.Member;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberLoginRequest;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberSignUpRequest;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface MemberRepository {

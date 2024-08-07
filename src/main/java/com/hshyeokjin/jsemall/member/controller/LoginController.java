@@ -1,7 +1,7 @@
 package com.hshyeokjin.jsemall.member.controller;
 
 import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
-import com.hshyeokjin.jsemall.common.contoller.BaseController;
+import com.hshyeokjin.jsemall.common.controller.BaseController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

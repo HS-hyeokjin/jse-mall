@@ -1,7 +1,6 @@
 package com.hshyeokjin.jsemall.member.repository.impl;
 
 import com.hshyeokjin.jsemall.common.util.DbConnection;
-import com.hshyeokjin.jsemall.member.entity.Auth;
 import com.hshyeokjin.jsemall.member.entity.Member;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberLoginRequest;
 import com.hshyeokjin.jsemall.member.entity.dto.MemberSignUpRequest;
@@ -15,18 +14,29 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public int save(MemberSignUpRequest memberSignUpRequest) {
-        String sql = "INSERT INTO member (email, name, password, birth, auth, point, createdAt) VALUES (?, ?, ?, ?, 'USER', 10000, now())";
-
+        String sql = "INSERT INTO member (email, name, password, birth, roleId, point, createAt) VALUES (?, ?, ?, ?, 1, 10000, now())";
         try {
             Connection connection = DbConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, memberSignUpRequest.getEmail());
             pstmt.setString(2, memberSignUpRequest.getName());
             pstmt.setString(3, memberSignUpRequest.getPassword());
             pstmt.setDate(4, Date.valueOf(memberSignUpRequest.getBirth()));
 
-            return pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("회원 등록에 실패했습니다. No rows affected.");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("회원 등록에 실패했습니다. 생성된 키를 가져올 수 없습니다.");
+                }
+            }
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new RuntimeException("중복된 이메일입니다.", e);
         } catch (SQLException e) {
@@ -34,48 +44,31 @@ public class MemberRepositoryImpl implements MemberRepository {
         }
     }
 
+
     @Override
     public Optional<Member> findByEmailAndPassword(MemberLoginRequest memberLoginRequest) {
         String sql = "select * from member where email = ? and password = ?";
 
         try {
-            System.out.println(1);
             Connection connection = DbConnection.getConnection();
-            System.out.println(1);
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            System.out.println(1);
             pstmt.setString(1, memberLoginRequest.getEmail());
-            System.out.println(1);
             pstmt.setString(2, memberLoginRequest.getPassword());
-            System.out.println(1);
             ResultSet rs = pstmt.executeQuery();
-            System.out.println(1);
             if (rs.next()) {
-                System.out.println(1);
-                int memberNo = rs.getInt("memberNo");
-                System.out.println(1);
+                int memberId = rs.getInt("memberIo");
+                int roleId = rs.getInt("roleId");
                 String email = rs.getString("email");
-                System.out.println(1);
                 String name = rs.getString("name");
-                System.out.println(1);
                 String password = rs.getString("password");
-                System.out.println(1);
                 Date birth = rs.getDate("birth");
-                System.out.println(1);
-                Auth auth = Auth.valueOf(rs.getString("auth"));
-                System.out.println(1);
                 int point = rs.getInt("point");
-                System.out.println(1);
                 Date createdAt = rs.getDate("createdAt");
-                System.out.println(1);
-
-                System.out.println(1);
-                Member member = new Member(memberNo, email, name, password, auth, birth, point, createdAt);
+                Member member = new Member(memberId, roleId,email, name, password, birth, point, createdAt);
                 return Optional.of(member);
             }
         } catch (SQLException e) {
-            System.out.println("오류");
             throw new RuntimeException(e);
         }
         return Optional.empty();
