@@ -1,4 +1,4 @@
-package com.hshyeokjin.jsemall.common.contoller;
+package com.hshyeokjin.jsemall.common.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,8 +1,8 @@
 package com.hshyeokjin.jsemall.common.front;
 
 import com.hshyeokjin.jsemall.common.Resolver.ViewResolver;
-import com.hshyeokjin.jsemall.common.contoller.BaseController;
-import com.hshyeokjin.jsemall.common.contoller.ControllerFactory;
+import com.hshyeokjin.jsemall.common.controller.BaseController;
+import com.hshyeokjin.jsemall.common.controller.ControllerFactory;
 import com.hshyeokjin.jsemall.common.util.DbConnection;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;

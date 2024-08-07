@@ -1,4 +1,4 @@
-package com.hshyeokjin.jsemall.common.contoller;
+package com.hshyeokjin.jsemall.common.controller;
 
 import com.hshyeokjin.jsemall.common.annotation.RequestMapping;
 
